@@ -38,8 +38,16 @@
   @version
 */
 
+// QT Headers
+#include <QtGlobal>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtWidgets>
+#define toAscii toLatin1
+#else
 #include <QtGui/QApplication>
 #include <QtCore/QSettings>
+#endif
+
 #include "MainWindow.h"
 #include "OMOptimSettings.h"
 #include "MOStyleSheet.h"
@@ -51,6 +59,7 @@
 #include <unistd.h>  // isatty()
 #include "GuiTools.h"
 #include "ConsoleWindow.h"
+#include "Utilities.h"
 
 #define HAVE_QAPPLICATION_H
 #define HAVE_QSOCKETNOTIFIER_H
@@ -100,17 +109,12 @@ int main(int argc, char *argv[])
     OMOptimSettings::initialize();
 
     // Message handler
-    QString logFilePath = app->applicationDirPath()+QDir::separator()+"OMLog.txt";
-    if(filePaths.size()==1)
-    {
-        // put MOLog in same directory
-        logFilePath = QFileInfo(filePaths.at(0)).absoluteDir().absoluteFilePath("OMLog.txt");
-    }
+    QString logFilePath = Utilities::getOMLog();
     QFile logFile(logFilePath);
     logFile.open(QIODevice::WriteOnly);
 
     // Setting the Application version
-    QString version = QString::number(Version::MAJOR)+"."+QString::number(Version::MINOR)+"."+QString::number(Version::REVISION);
+    QString version = Version::version();
     app->setApplicationVersion(version);
 
     // Style
@@ -197,8 +201,8 @@ int main(int argc, char *argv[])
         //        if (isatty(fileno(stdin)))
         //            launchFromCmdLine = true;
 
-        // add a script logfile
-        QString scriptLogFilePath = QFileInfo(filePaths.at(0)).absoluteDir().absoluteFilePath("OMScriptLog.txt");
+        // add a script logfile in the temp directory
+        QString scriptLogFilePath = Utilities::getOMScriptLog();
         QFile scriptLogFile(scriptLogFilePath);
         scriptLogFile.open(QIODevice::WriteOnly);
         QTextStream *scriptLogStream = new QTextStream(&scriptLogFile);

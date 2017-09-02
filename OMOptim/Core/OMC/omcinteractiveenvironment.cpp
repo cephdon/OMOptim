@@ -33,13 +33,20 @@
 #include <exception>
 #include <stdexcept>
 
+// QT Headers
+#include <QtGlobal>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtWidgets>
+#else
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
 #include <QtGui/QMessageBox>
+#include <QApplication>
+#endif
 
 #include "omcinteractiveenvironment.h"
+#include "Utilities.h"
 #include <iostream>
-
 
 namespace IAEX
 {
@@ -171,7 +178,7 @@ namespace IAEX
 #endif
 
       QStringList parameters;
-      parameters << "+d=interactiveCorba" << QString("+corbaObjectReferenceFilePath=").append(QDir::tempPath());
+      parameters << "+d=interactiveCorba" << QString("+corbaObjectReferenceFilePath=").append(Utilities::tempDirectory());
 
       // 2006-03-14 AF, create qt process
       QProcess *omcProcess = new QProcess();

@@ -40,10 +40,6 @@
   */
 #include "OneSimulation.h"
 #include "Problem.h"
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QDir>
-#include <QtCore/QFileInfo>
 #include "Variable.h"
 #include "LowTools.h"
 #include "CSV.h"
@@ -203,7 +199,8 @@ Result* OneSimulation::launch(ProblemConfig config)
     {
         indexes.push_back(0);
         scannedVar = _scannedVariables->at(iScanV);
-        maxIndexes.push_back(scannedVar->nbScans()-1);
+        int index = scannedVar->nbScans()-1;
+        maxIndexes.push_back(index);
         clonedVar = new Variable(*(dynamic_cast<Variable*>(scannedVar)));
         updatedVariables.addItem(clonedVar);
     }

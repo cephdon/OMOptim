@@ -44,14 +44,14 @@
 
 Variable::Variable(void)
 {
-    _causality = UNKNOWN;
+    _causality = OMUNKNOWN;
     _protectedFields << Variable::NAME << Variable::DESCRIPTION << Variable::MODEL << DATATYPE ;
     // qDebug(QString("New "+getClassName()).toLatin1().data());
 }
 
 Variable::Variable(QString name)
 {
-    _causality = UNKNOWN;
+    _causality = OMUNKNOWN;
     _protectedFields << Variable::NAME << Variable::DESCRIPTION << Variable::MODEL << DATATYPE ;
     setName(name);
     // qDebug(QString("New "+getClassName()).toLatin1().data());
@@ -229,11 +229,11 @@ QVariant Variable::getFieldValue(int ifield, int role) const
             {
                 switch(_causality)
                 {
-                case INPUT :
+                case OMINPUT :
                     return "Input";
-                case OUTPUT :
+                case OMOUTPUT :
                     return "Output";
-                case UNKNOWN:
+                case OMUNKNOWN:
                     return "-";
                 default :
                     return "-";
@@ -887,11 +887,11 @@ QVariant OptVariable::getFieldValue(int ifield, int role) const
             {
                 switch(_causality)
                 {
-                case INPUT :
+                case OMINPUT :
                     return "Input";
-                case OUTPUT :
+                case OMOUTPUT :
                     return "Output";
-                case UNKNOWN:
+                case OMUNKNOWN:
                     return "-";
                 default :
                     return "-";
@@ -1110,10 +1110,21 @@ void ScannedVariable::initScanExtremum()
 int ScannedVariable::nbScans()
 {
     //#TOCHECK
+    int i = 0;
     if(_scanStep>0)
-        return (int)(_scanMax-_scanMin)/_scanStep + 1;
+    {
+        double d = _scanMax - _scanMin;
+        double s = d / _scanStep;
+        // fprintf(stderr, "%g - %g = %g", _scanMax, _scanMin, d);
+        // fprintf(stderr, "%g / %g = %g", d, _scanStep, s);
+        i = s + 1;
+        if (i < 0)
+          return 0;
+        else
+          return i;
+    }
     else
-        return 0;
+        return i;
 }
 
 
@@ -1164,11 +1175,11 @@ QVariant ScannedVariable::getFieldValue(int ifield, int role) const
             {
                 switch(_causality)
                 {
-                case INPUT :
+                case OMINPUT :
                     return "Input";
-                case OUTPUT :
+                case OMOUTPUT :
                     return "Output";
-                case UNKNOWN :
+                case OMUNKNOWN :
                     return "-";
                 default :
                     return "-";

@@ -41,10 +41,21 @@
 #define OMS_H
 
 #include <exception>
+
+// QT Headers
+#include <QtGlobal>
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#include <QtWidgets>
+#else
 #include <QtCore/QObject>
 #include <QtCore/QThread>
 #include <QtCore/QProcess>
 #include <QtCore/QStringList>
+#include <QtCore/QTextStream>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
+#include <QMutex>
+#endif
 
 
 #include "omc_communication.h"
@@ -54,11 +65,8 @@
 #include "omc_communicator.h"
 #include "VariableType.h"
 
-
-
 class Project;
 class Variable;
-
 
 /**
   * MOomc is dedicated to communication with OpenModelica through CORBA.
@@ -187,10 +195,8 @@ public :
     QString loadFileWThread(QString filePath);
 
 
-     bool initCommandLineOptions();
-     bool clearCommandLineOptions();
-
-
+    bool initCommandLineOptions();
+    bool clearCommandLineOptions();
 
 
 public slots :

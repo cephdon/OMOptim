@@ -3,6 +3,9 @@ TARGET = OMOptim
 CONFIG += staticlib warn_off
 
 QT +=  core gui svg xml
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT *= printsupport widgets webkitwidgets
+}
 
 CONFIG(debug, debug|release){
     DEFINES+=DEBUG
@@ -33,6 +36,7 @@ INCLUDEPATH += . \
               ../Core/OpenModelica \
               ../Core/Problems \
               ../Core/Tools \
+              ../Core/Util \
               ../Core/Units \
               ../GUI/Dialogs \
               ../GUI/Plots \
@@ -274,7 +278,13 @@ HEADERS += ../Core/OptObjective.h \
     ../Core/PlugInterface.h \
     ../Core/ModPlusBlackBoxExeCtrl.h \
     ../scriptparseromoptim.h \
-    ../GUI/Widgets/WidgetSelectEditVars.h
+    ../GUI/Widgets/WidgetSelectEditVars.h \
+    ../Core/Tools/StringHandler.h \
+    ../Core/Tools/Helper.h \
+    ../Core/OMC/ComponentInfo.h \
+    ../Core/Util/Helper.h \
+    ../Core/Util/StringHandler.h \
+    ../Core/Util/Utilities.h
     #../Core/ModPlusTherExeCtrl.h
 
 FORMS += ../GUI/MainWindow.ui \
@@ -342,7 +352,7 @@ SOURCES += ../Core/OptObjective.cpp \
            ../GUI/Dialogs/AboutOMOptim.cpp \
           # ../GUI/Dialogs/BlockSubstituteConnDlg.cpp \
            ../GUI/Dialogs/newprojectform.cpp \
-           ../GUI/Plots/MOPlot.cpp \
+           #../GUI/Plots/MOPlot.cpp \
            ../GUI/Scene/arrow.cpp \
          #  ../GUI/Scene/BlockDrawItem.cpp \
           # ../GUI/Scene/BlockSubsScene.cpp \
@@ -380,7 +390,6 @@ SOURCES += ../Core/OptObjective.cpp \
            ../Core/Optim/EA/SPEA2/SPEA2.cpp \
            ../Core/Optim/EA/SPEA2Adaptative/SPEA2Adapt.cpp \
             ../Core/OMC/OMCHelper.cpp \
-            ../Core/OMC/StringHandler.cpp \
             ../GUI/Widgets/WidgetMooPointsList.cpp \
             ../GUI/Widgets/WidgetProjectInfos.cpp \
             ../GUI/Widgets/WidgetProblemActions.cpp \
@@ -406,6 +415,10 @@ SOURCES += ../Core/OptObjective.cpp \
     ../Core/ModPlusDymolaExeCtrl.cpp \
     ../Core/ModPlusBlackBoxExeCtrl.cpp \
     ../scriptparseromoptim.cpp \
-    ../GUI/Widgets/WidgetSelectEditVars.cpp
+    ../GUI/Widgets/WidgetSelectEditVars.cpp \
+    ../Core/OMC/ComponentInfo.cpp \
+    ../Core/Util/Helper.cpp \
+    ../Core/Util/StringHandler.cpp \
+    ../Core/Util/Utilities.cpp
     #../Core/ModPlusTherExeCtrl.cpp
 
